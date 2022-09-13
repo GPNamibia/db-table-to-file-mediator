@@ -1,0 +1,39 @@
+{
+  "appConfig": {
+      "PORT": 3000
+  },
+  "openhimConfig": {
+      "username": "root@openhim.org",
+      "password": "rehgob-5pExzi-kohpyz",
+      "apiURL": "https://namibia-hie-auth.globalhealthapp.net"
+  },
+  "development": {
+    "username": "yourDevDbusernsme",
+    "password": "yourDevDbPassword",
+    "database": "yourdevdatabes",
+    "host": "localhost",
+    "dialect": "mysql",
+    "define": {
+    "timestamps": true,
+    "freezeTableName": true
+    },
+    "logging": false,
+    "port": 3306
+},
+"test": {
+    "username": "root",
+    "password": "password",
+    "database": "mysqlrepo",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "port": 3306
+},
+"production": {
+    "username": "root",
+    "password": "password",
+    "database": "mysqlrepo",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "port": 3306
+}
+}
