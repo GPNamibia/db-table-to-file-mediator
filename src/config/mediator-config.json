@@ -1,0 +1,41 @@
+{
+    "urn": "urn:mediator:db-file",
+    "version": "1.0.0",
+    "name": "Database-file-mediator",
+    "description": "This mediator is intended for retrieving data from SQL database to CSV/XML/JSON.",
+    "defaultChannelConfig": [
+        {
+            "name": "Database-file-mediator",
+            "urlPattern": "^/db-file-mediator$",
+            "routes": [
+                {
+                    "name": "database-file Mediator Route",
+                    "host": "db-file-mediator",
+                    "path": "/",
+                    "port": "3000",
+                    "primary": true,
+                    "type": "http"
+                }
+            ],
+            "allow": [
+                "admin"
+            ],
+            "methods": [
+                "GET",
+                "PATCH"
+            ],
+            "type": "http"
+        }
+    ],
+    "endpoints": [
+        {
+            "name": "Database-file Mediator Endpoint",
+            "host": "db-file-mediator",
+            "path": "/",
+            "port": "3000",
+            "primary": false,
+            "type": "http"
+        }
+    ],
+    "configDefs": []
+}
