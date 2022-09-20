@@ -1,7 +1,12 @@
 const express = require("express");
+const fastcsv = require('fast-csv');
+const fs = require('fs');
 const privateConfig = require('./config/private-config.json');
 const db = require('./models');
 const app = express();
+const {fact_anc_dhis2_export} = require("./models");
+const ptrackerData = require('./forest/readOnConsole')
+
 
 app.all('*', async (req, res) => {
   // Starts when a new request is triggered by the polling channel
@@ -10,6 +15,8 @@ app.all('*', async (req, res) => {
     `DHIS 2 <=> PTracker Mediator has received a new request. \n`
   );
 });
+
+ptrackerData.getPtrackerData(fact_anc_dhis2_export);
 
 //Server PORT
 db.sequelize.sync({}).then((req) => {
