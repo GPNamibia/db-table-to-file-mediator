@@ -3,6 +3,7 @@ const privateConfig = require('./config/private-config.json');
 const db = require('./models');
 const app = express();
 const pTracker = require('./toCsv/jSonToCsv')
+const {getQueryParameters }= require('./openhim/initialize');
 
 app.all('*', async (req, res) => {
   // Starts when a new request is triggered by the polling channel
@@ -11,7 +12,7 @@ app.all('*', async (req, res) => {
     `DHIS 2 <=> PTracker Mediator has received a new request. \n`
   );
 });
-
+getQueryParameters();
 pTracker.getPtrackerData();
 
 //Server PORT

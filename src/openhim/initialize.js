@@ -1,37 +1,42 @@
-// 'use strict'
+'use strict'
+const privateConfig = require('../config/private-config.json');
+const mediatorConfig = require('../config/mediator-config.json');
 
-// import express from 'express'
-// import { registerMediator, activateHeartbeat } from 'openhim-mediator-utils'
-// import mediatorConfig, { urn } from './mediatorConfig.json'
-// import { fetchConfig } from 'openhim-mediator-utils`'
+// OpenHIM
+const { registerMediator, activateHeartbeat, fetchConfig } = require('openhim-mediator-utils');
+let queryParams;
+const openhimVars = privateConfig.openhimConfig;
+const openhimConfig = {
+    username: openhimVars.username,
+    password: openhimVars.password,
+    apiURL: openhimVars.apiURL,
+    trustSelfSigned: true,
+    urn: mediatorConfig.urn
+}
+const emitter = activateHeartbeat(openhimConfig);
 
-// const app = express()
+registerMediator(openhimConfig, mediatorConfig, err => {
+    if (err) {
+        throw new Error(`Failed to register mediator. Check your Config. ${err}`)
+    }
+});
 
-// const openhimConfig = {
-//   username: 'root@openhim.org',
-//   password: 'password',
-//   apiURL: 'https://openhim-core:8080',
-//   trustSelfSigned: true,
-//   urnr
-// }
+fetchConfig(openhimConfig, (err, initialConfig) => {
+    if (err) {
+        throw new Error(`Failed to fetch initial config. ${err}`)
+    }
+    console.log('Initial Config: ', JSON.stringify(initialConfig))
+    queryParams = initialConfig.labResultsParams
+});
 
-// app.all('*', (req, res) => {
-//   res.send('Hello World')
-// })
+emitter.on('error', err => {
+    console.error('Heartbeat failed: ', err)
+});
 
-// app.listen(3000, () => {
-//   console.log('Server listening on port 3000...')
-//   activateHeartbeat(openhimConfig)
-// })
+emitter.on('config', newConfig => {
+    console.log('Received updated config:', JSON.stringify(newConfig))
+    queryParams = newConfig.labResultsParams
+});
 
-// registerMediator(openhimConfig, mediatorConfig, err => {
-//   if (err) {
-//     throw new Error(`Failed to register mediator. Check your Config. ${err}`)
-//   }
-// })
-// fetchConfig(openhimConfig, (err, initialConfig) => {
-//   if (err) {
-//     throw new Error(`Failed to fetch initial config. ${err}`)
-//   }
-//   console.log('Initial Config: ', JSON.stringify(initialConfig))
-// })
+function getQueryParameters() { return queryParams }
+module.exports = { getQueryParameters };

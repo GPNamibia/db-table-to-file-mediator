@@ -6,7 +6,9 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/private-config.json')[env];
 const db = {};
+const {getQueryParameters }= require('../openhim/initialize');
 
+getQueryParameters()
 let sequelize;
 if (config.use_env_variable) {
     sequelize = new Sequelize(process.env[config.use_env_variable], config);
