@@ -1,32 +1,23 @@
-const sqlBuilder = require("../db/sqlBuilder")
-const fs  = require('fs')
-const express = require("express")
-const objectstocsv = require("object-to-csv") 
-const converter= require('json-2-csv')
-const mysql = require("mysql")
-const app = express()
+const sqlBuilder = require('../db/sqlBuilder')
+const fs = require('fs')
+const converter = require('json-2-csv')
+const { fact_anc_dhis2_export } = require('../models');
+const fastcsv = require("fast-csv");
 
-function getPtrackerData(table_name) {
-sqlBuilder.readData(table_name).then((res)=>{
-var data = JSON.parse(JSON.stringify(res))
+function getPtrackerData() {
+    sqlBuilder.readData(fact_anc_dhis2_export).then((res) => {
+        var data = JSON.parse(JSON.stringify(res))
 
-converter.json2csv(data, (err,csv)=>{
-    if (err){
-        throw err;
-    }
-    console.log(csv)
-
-    fs.writeFileSync('./data.csv', csv)
-})
-})}
-
+        const ws=fs.createWriteStream('./src/toCsv/data.csv');
+        fastcsv
+            .write(data, { headers: true })
+            .on("finish", function () {
+                console.log(`1. Write to data.csv successfully! \n`);
+            })
+            .pipe(ws);
+    })
+}
 
 module.exports = {
     getPtrackerData
-}
-
-
-
-
-
-
+};

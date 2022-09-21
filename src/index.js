@@ -2,6 +2,7 @@ const express = require("express");
 const privateConfig = require('./config/private-config.json');
 const db = require('./models');
 const app = express();
+const pTracker = require('./toCsv/jSonToCsv')
 
 app.all('*', async (req, res) => {
   // Starts when a new request is triggered by the polling channel
@@ -11,7 +12,7 @@ app.all('*', async (req, res) => {
   );
 });
 
-ptrackerData.getPtrackerData(fact_anc_dhis2_export);
+pTracker.getPtrackerData();
 
 //Server PORT
 db.sequelize.sync({}).then((req) => {

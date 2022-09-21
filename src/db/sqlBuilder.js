@@ -1,9 +1,8 @@
 async function readData(model) {
-  const attri = model.attributes
-    const foundItems = await model.findAll({ attributes: {exclude: ['id','COCUID','AOCUID']},});
+    const foundItems = await model.findAll({ attributes: {exclude: ['id']},});
     return foundItems;
-    
   }
+
   module.exports = {
     readData,
   };
