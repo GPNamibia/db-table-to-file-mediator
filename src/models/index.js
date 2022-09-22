@@ -7,8 +7,7 @@ const env = process.env.NODE_ENV || 'development';
 const config = require('../config/private-config.json')[env];
 const db = {};
 
-
-
+//Calling he database
 let sequelize;
 if (config.use_env_variable) {
     sequelize = new Sequelize(process.env[config.use_env_variable], config);

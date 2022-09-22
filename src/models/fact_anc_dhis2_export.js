@@ -1,3 +1,4 @@
+// definining the table structure
 module.exports = (sequelize, DataTypes) => {
   const fact_anc_dhis2_export = sequelize.define("fact_anc_dhis2_export", {
     data_element: {
