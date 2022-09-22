@@ -4,6 +4,7 @@
   "license": "MIT",
   "main": "src/index.js",
   "scripts": {
+    
     "test": "mocha test",
     "start": "nodemon --experimental-json-modules src/index.js"
   },
