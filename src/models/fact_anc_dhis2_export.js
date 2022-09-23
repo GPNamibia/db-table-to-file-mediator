@@ -1,9 +1,9 @@
+// definining the table structure
 module.exports = (sequelize, DataTypes) => {
-  const data_element = sequelize.define("fact_anc_dhis2_export", {
-    submission_uuid: {
+  const fact_anc_dhis2_export = sequelize.define("fact_anc_dhis2_export", {
+    data_element: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       validate: {
         notEmpty: true,
       },

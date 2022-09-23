@@ -36,6 +36,29 @@
             "primary": false,
             "type": "http"
         }
+        
     ],
-    "configDefs": []
+    "configDefs": [
+        {
+          "param": "tutorial",
+          "displayName": "Tutorial variables",
+          "description": "Some variables to demonstrate fetching OpenHIM mediator config",
+          "type": "struct",
+          "array": false,
+          "template": [
+            {
+              "param": "variable_1",
+              "displayName": "Variable 1",
+              "description": "First Variable",
+              "type": "string"
+            },
+            {
+              "param": "variable_2",
+              "displayName": "Variable 2",
+              "description": "Second Variable",
+              "type": "string"
+            }
+          ]
+        }
+      ]
 }
