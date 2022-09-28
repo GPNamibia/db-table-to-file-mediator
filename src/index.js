@@ -17,15 +17,24 @@ app.all('*', async (req, res) => {
     `\n${new Date().toUTCString('en-GB', { timeZone: 'UTC' })}  - `,
     `DHIS 2 <=> Datatbase File Mediator has received a new request. \n`
   );
-  //csv get request
-//get data from tables
-ptrackerData.getPtrackerData();
-//send data to dhis2Mediator
-ptrackerData.postPtrackerData();
+  
+  //get data from tables and send data to dhis2Mediator
+  ptrackerData.getDataAndPost().then((res)=>{
+    try {
+      res.json('PTracker data succesfully sent to DHIS@ mediator')
+    } catch (error) {
+      console.log('Error sending data to DHIS2 mediator')
+    }
+  })
 });
+//get data from tables
+//ptrackerData.getPtrackerData();
+//send data to dhis2Mediator
+//ptrackerData.postPtrackerData();
 
 
-//openhim 
+
+//openhim: comment out when connected to localhost 
 getQueryParameters();
 
 //Server PORT

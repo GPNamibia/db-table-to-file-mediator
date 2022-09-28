@@ -9,19 +9,24 @@ const axios = require('axios').default;
 const privateConfig = require("../config/private-config.json")
 const { parse } = require("csv-parse");
 
-//Read from model and stringify to convert to csv
+//Read from model, convert to JSON stringify to convert to csv
 async function getPtrackerDataFromDb(table_name_model, table_name) {
   await sqlBuilder.readData(table_name_model).then((res) => {
     var data = JSON.parse(JSON.stringify(res))
+    saveCsvFile(table_name,data);
+    // console.log(data)
+  }).catch("Not converted to JSON")
+}
 
-    const ws = fs.createWriteStream(`./src/csvData/ ${table_name}.csv`);
-    fastcsv
-      .write(data, { headers: true })
-      .on("finish", function () {
-        console.log(`Write to ${table_name} successfully! \n`);
-      })
-      .pipe(ws);
-  })
+function saveCsvFile(table_name,data) {
+  const ws = fs.createWriteStream(`./src/csvData/ ${table_name}.csv`);
+  fastcsv
+    .write(data, { headers: true })
+    .on("finish", function () {
+      console.log(`Write to ${table_name} successfully! \n`);
+    })
+    .pipe(ws);
+  return ("Successfully saved data")
 }
 // send data to dhis2Mediator
 const postCsvToEndpoint = async (table_name) => {
@@ -31,7 +36,7 @@ const postCsvToEndpoint = async (table_name) => {
         table_name, rows
       })
         .then(function (response) {
-          //console.log(response);
+          console.log(response);
         })
         .catch(function (error) {
           console.log(error);
@@ -39,7 +44,7 @@ const postCsvToEndpoint = async (table_name) => {
     })
   })
 }
-//the data being sent
+//the data being sent to second mediator endpoint
 async function postPtrackerData() {
   try {
     await Promise.all([
@@ -63,11 +68,21 @@ async function getPtrackerData() {
     console.log("error fetching data from database:", error)
   }
 }
-
+async function getDataAndPost(){
+  return new Promise(async (resolve, reject) => {
+    await this.getPtrackerData().then((res)=>{
+      this.postPtrackerData().then((res)=>{
+        return resolve();
+      }) 
+    })
+  })
+  
+}
 module.exports = {
   getPtrackerDataFromDb,
   postCsvToEndpoint,
   getPtrackerData,
-  postPtrackerData
+  postPtrackerData,
+  saveCsvFile,
+  getDataAndPost
 };
-
