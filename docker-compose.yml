@@ -51,7 +51,7 @@ services:
     container_name: mysql-repo
     image: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_ROOT_PASSWORD: 
     restart: always
     ports:
       - "127.0.0.1:3307:3306"
