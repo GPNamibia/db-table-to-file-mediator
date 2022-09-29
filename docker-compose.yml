@@ -49,15 +49,12 @@ services:
     #   - ./default.json:/usr/share/nginx/html/config/default.json
   mssql-db:
     container_name: mysql-repo
-    image: mcr.microsoft.com/azure-sql-edge
+    image: mysql
     environment:
-      SA_PASSWORD: "MyPass@word"
-      ACCEPT_EULA: "1"
-      MSSQL_PID: "Developer"
-      MSSQL_USER: "sa"
+      MYSQL_ROOT_PASSWORD: 
     restart: always
     ports:
-      - "127.0.0.1:1433:1433"
+      - "127.0.0.1:3307:3306"
     
 
   db-file-mediator:
