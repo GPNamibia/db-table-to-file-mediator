@@ -70,14 +70,17 @@ async function getPtrackerData() {
 }
 async function getDataAndPost(){
   return new Promise(async (resolve, reject) => {
-    await this.getPtrackerData().then((res)=>{
-      this.postPtrackerData().then((res)=>{
-        return resolve();
-      }) 
+      await this.getPtrackerData().then(async(res)=>{
+        setTimeout(() => {
+           this.postPtrackerData().then((res)=>{
+            return resolve();
+          })
+              .catch((err) => { console.error(err) })
+      }, 5000);
     })
-  })
+  }) 
   
-}
+}; 
 module.exports = {
   getPtrackerDataFromDb,
   postCsvToEndpoint,
