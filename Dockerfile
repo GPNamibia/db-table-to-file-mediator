@@ -10,6 +10,6 @@ CMD npm start
 
 RUN npm install -g sequelize-cli
 
-EXPOSE 3000
+EXPOSE 1000
 
 VOLUME [ "/app/node_modules" ]
