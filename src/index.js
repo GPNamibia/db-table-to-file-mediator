@@ -5,10 +5,6 @@ const app = express();
 const ptrackerData = require('./csvData/jSonToCsv')
 const { getQueryParameters } = require('./openhim/initialize');
 const cors = require('cors');
-const { fact_anc_dhis2_export } = require('../src/models');
-const { fact_mbfu_dhis2_export } = require('../src/models');
-const { fact_maternity_dhis2_export } = require('../src/models');
-
 
 
 app.all('*', async (req, res) => {
@@ -19,20 +15,11 @@ app.all('*', async (req, res) => {
   );
   
   //get data from tables and send data to dhis2Mediator
-  ptrackerData.getDataAndPost().then((res)=>{
-    try {
-      res.json('PTracker data succesfully sent to DHIS@ mediator')
-    } catch (error) {
-      console.log('Error sending data to DHIS2 mediator')
-    }
-  })
+ await ptrackerData.getDataAndPost()
+        .then((results) => {
+                res.json('PTracker data succesfully sent to DHIS2 mediator');
+        }).catch(error => { res.json(`Error retrieving PTracker Data: ${error}`) })
 });
-//get data from tables
-//ptrackerData.getPtrackerData();
-//send data to dhis2Mediator
-//ptrackerData.postPtrackerData();
-
-
 
 //openhim: comment out when connected to localhost 
 getQueryParameters();

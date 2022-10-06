@@ -15,7 +15,9 @@ async function getPtrackerDataFromDb(table_name_model, table_name) {
     var data = JSON.parse(JSON.stringify(res))
     saveCsvFile(table_name,data);
     // console.log(data)
-  }).catch("Not converted to JSON")
+  }).catch(error=>{
+    return error;
+  })
 }
 
 function saveCsvFile(table_name,data) {
@@ -36,7 +38,7 @@ const postCsvToEndpoint = async (table_name) => {
         table_name, rows
       })
         .then(function (response) {
-          console.log(response);
+          console.log("Succesfully send CSV data to DHIS2 mediator");
         })
         .catch(function (error) {
           console.log(error);
@@ -69,17 +71,11 @@ async function getPtrackerData() {
   }
 }
 async function getDataAndPost(){
-  return new Promise(async (resolve, reject) => {
       await this.getPtrackerData().then(async(res)=>{
         setTimeout(() => {
-           this.postPtrackerData().then((res)=>{
-            return resolve();
-          })
-              .catch((err) => { console.error(err) })
-      }, 5000);
+           this.postPtrackerData()
+      }, 7000);
     })
-  }) 
-  
 }; 
 module.exports = {
   getPtrackerDataFromDb,
