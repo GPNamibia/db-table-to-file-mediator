@@ -44,6 +44,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
   });
+  fact_anc_dhis2_export.removeAttribute('id');
 
   return fact_anc_dhis2_export;
 };

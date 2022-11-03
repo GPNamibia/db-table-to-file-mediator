@@ -44,6 +44,6 @@
         },
       },
     });
-  
+    fact_mbfu_dhis2_export.removeAttribute('id');
     return fact_mbfu_dhis2_export;
   };
