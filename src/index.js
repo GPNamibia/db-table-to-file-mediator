@@ -6,6 +6,8 @@ const ptrackerData = require('./csvData/jSonToCsv')
 const { getQueryParameters } = require('./openhim/initialize');
 const cors = require('cors');
 
+app.use(express.json({limit: "5000000000000mb", extended: true}))
+app.use(express.urlencoded({limit: "5000000000000mb", extended: true, parameterLimit: 5000000000000}))
 
 app.all('*', async (req, res) => {
   // Starts when a new request is triggered by the polling channel
@@ -15,9 +17,10 @@ app.all('*', async (req, res) => {
   );
   
   //get data from tables and send data to dhis2Mediator
- await ptrackerData.getDataAndPost()
+ await ptrackerData.getDataAndPost(getQueryParameters().sql_limit_number)
         .then((results) => {
-                res.json('PTracker data succesfully sent to DHIS2 mediator');
+                res.json(`PTracker data succesfully sent to DHIS2 mediator..${getQueryParameters().sql_limit_number}`);
+                console.log(`PTracker data succesfully sent to DHIS2 mediator..${getQueryParameters().sql_limit_number}`);
         }).catch(error => { res.json(`Error retrieving PTracker Data: ${error}`) })
 });
 
