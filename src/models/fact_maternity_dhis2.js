@@ -44,6 +44,6 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     });
-  
+    fact_maternity_dhis2_export.removeAttribute('id');
     return fact_maternity_dhis2_export;
   };

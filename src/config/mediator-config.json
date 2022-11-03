@@ -39,26 +39,20 @@
         
     ],
     "configDefs": [
-        {
-          "param": "tutorial",
-          "displayName": "Tutorial variables",
-          "description": "Some variables to demonstrate fetching OpenHIM mediator config",
+      {
+          "param": "dbFileParams",
+          "displayName": "dbFile mediator variables",
+          "description": "Variables to define odk central retrieval query",
           "type": "struct",
           "array": false,
           "template": [
             {
-              "param": "variable_1",
-              "displayName": "Variable 1",
-              "description": "First Variable",
-              "type": "string"
-            },
-            {
-              "param": "variable_2",
-              "displayName": "Variable 2",
-              "description": "Second Variable",
-              "type": "string"
+              "param": "sql_limit_number",
+              "displayName": "Number of Days",
+              "description": "SQL limit number for odk central",
+              "type": "number"
             }
           ]
         }
-      ]
+  ]
 }
